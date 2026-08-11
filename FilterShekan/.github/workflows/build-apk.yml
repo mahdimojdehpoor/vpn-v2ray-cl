@@ -1,0 +1,50 @@
+name: Build APK
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: چک‌اوت کد
+        uses: actions/checkout@v4
+
+      - name: نصب JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: نصب Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: اجازه اجرا به gradlew
+        run: |
+          if [ ! -f "./gradlew" ]; then
+            gradle wrapper --gradle-version 8.7
+          fi
+          chmod +x ./gradlew
+
+      - name: ساخت APK (دیباگ)
+        run: ./gradlew assembleDebug --stacktrace
+
+      - name: آپلود APK به عنوان Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: filtershekan-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+
+      - name: ساخت APK (ریلیز - بدون ساین اختصاصی)
+        run: ./gradlew assembleRelease --stacktrace
+        continue-on-error: true
+
+      - name: آپلود APK ریلیز
+        uses: actions/upload-artifact@v4
+        with:
+          name: filtershekan-release-apk
+          path: app/build/outputs/apk/release/*.apk
+        continue-on-error: true
