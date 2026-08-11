@@ -1,0 +1,3 @@
+-keep class com.filtershekan.app.** { *; }
+-keep class libv2ray.** { *; }
+-dontwarn libv2ray.**
