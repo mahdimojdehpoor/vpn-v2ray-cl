@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="فیلترشکن"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="24dp" />
+
+    <EditText
+        android:id="@+id/editSubscriptionUrl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="لینک سابسکریپشن سرور (اختیاری)"
+        android:inputType="textUri" />
+
+    <Button
+        android:id="@+id/btnFetchSubscription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="دریافت لیست سرورها"
+        android:layout_marginTop="8dp" />
+
+    <EditText
+        android:id="@+id/editConfigInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="یا مستقیم لینک کانفیگ (vmess://...) را وارد کنید"
+        android:inputType="textMultiLine"
+        android:minLines="2" />
+
+    <Button
+        android:id="@+id/btnConnect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="اتصال" />
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="وضعیت: قطع" />
+
+</LinearLayout>
