@@ -22,6 +22,14 @@ jobs:
       - name: نصب Android SDK
         uses: android-actions/setup-android@v3
 
+      - name: دانلود هسته Xray (libv2ray.aar)
+        uses: robinraju/release-downloader@v1.9
+        with:
+          repository: '2dust/AndroidLibXrayLite'
+          latest: true
+          fileName: 'libv2ray.aar'
+          out-file-path: 'app/libs'
+
       - name: اجازه اجرا به gradlew
         run: |
           if [ ! -f "./gradlew" ]; then
