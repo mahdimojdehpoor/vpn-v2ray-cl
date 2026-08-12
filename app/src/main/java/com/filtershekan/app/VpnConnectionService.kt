@@ -40,19 +40,28 @@ class VpnConnectionService : VpnService() {
                 val rawInput = ConfigManager.getSavedRawInput(this@VpnConnectionService)
                 val xrayConfigJson = ConfigManager.buildXrayConfigJson(rawInput)
 
-                XrayCoreBridge.start(xrayConfigJson) { protectSocketFd ->
-                    protect(protectSocketFd)
+                // اول اینترفیس TUN رو می‌سازیم تا fd معتبر داشته باشیم
+                val fd = establishTunInterface() ?: run {
+                    stopSelf()
+                    return@launch
                 }
 
-                establishTunInterface()
+                // بعد هسته رو با همون fd روشن می‌کنیم
+                val started = XrayCoreBridge.start(xrayConfigJson, fd) { statusMsg ->
+                    // اینجا می‌تونی وضعیت رو به یه Broadcast/LiveData بفرستی برای نمایش تو UI
+                }
+
+                if (!started) {
+                    disconnect()
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
-                stopSelf()
+                disconnect()
             }
         }
     }
 
-    private fun establishTunInterface() {
+    private fun establishTunInterface(): Int? {
         val builder = Builder()
             .setSession("FilterShekan")
             .addAddress("10.10.10.1", 32)
@@ -62,8 +71,7 @@ class VpnConnectionService : VpnService() {
             .setMtu(1500)
 
         vpnInterface = builder.establish()
-
-        // TODO: هدایت ترافیک TUN به SOCKS محلی (127.0.0.1:10808) از طریق tun2socks
+        return vpnInterface?.fd
     }
 
     private fun disconnect() {
@@ -96,15 +104,5 @@ class VpnConnectionService : VpnService() {
     override fun onDestroy() {
         super.onDestroy()
         disconnect()
-    }
-}
-
-object XrayCoreBridge {
-    fun start(configJson: String, protectCallback: (Int) -> Unit) {
-        // TODO: Libv2ray.runV2Ray(configJson) طبق نسخه کتابخانه
-    }
-
-    fun stop() {
-        // TODO: Libv2ray.stopV2Ray()
     }
 }
