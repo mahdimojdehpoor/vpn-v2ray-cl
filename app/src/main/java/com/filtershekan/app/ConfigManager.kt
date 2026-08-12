@@ -8,7 +8,17 @@ object ConfigManager {
 
     private const val PREFS_NAME = "filtershekan_prefs"
     private const val KEY_RAW_INPUT = "raw_input"
+    private const val KEY_AUTO_FETCH = "auto_fetch_enabled"
 
+    fun getAutoFetchEnabled(context: Context): Boolean {
+        return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            .getBoolean(KEY_AUTO_FETCH, true)
+    }
+
+    fun setAutoFetchEnabled(context: Context, enabled: Boolean) {
+        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            .edit().putBoolean(KEY_AUTO_FETCH, enabled).apply()
+    }
     fun saveRawInput(context: Context, raw: String) {
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
             .edit().putString(KEY_RAW_INPUT, raw).apply()
