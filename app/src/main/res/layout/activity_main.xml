@@ -14,28 +14,51 @@
         android:textStyle="bold"
         android:layout_marginBottom="24dp" />
 
-    <EditText
-        android:id="@+id/editSubscriptionUrl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="لینک سابسکریپشن سرور (اختیاری)"
-        android:inputType="textUri" />
-
-    <Button
-        android:id="@+id/btnFetchSubscription"
+    <CheckBox
+        android:id="@+id/checkboxAutoFetch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="دریافت لیست سرورها"
-        android:layout_marginTop="8dp" />
+        android:text="دریافت خودکار سرور (پیشنهادی)"
+        android:checked="true" />
 
-    <EditText
-        android:id="@+id/editConfigInput"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:textSize="12sp"
+        android:textColor="#666666"
+        android:text="اگه روشن باشه، اپ خودش هر بار جدیدترین سرور رایگان رو می‌گیره" />
+
+    <LinearLayout
+        android:id="@+id/manualInputContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="یا مستقیم لینک کانفیگ (vmess://...) را وارد کنید"
-        android:inputType="textMultiLine"
-        android:minLines="2" />
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/editSubscriptionUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="لینک سابسکریپشن سرور (اختیاری)"
+            android:inputType="textUri" />
+
+        <Button
+            android:id="@+id/btnFetchSubscription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="دریافت لیست سرورها"
+            android:layout_marginTop="8dp" />
+
+        <EditText
+            android:id="@+id/editConfigInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="یا مستقیم لینک کانفیگ (vmess://...) را وارد کنید"
+            android:inputType="textMultiLine"
+            android:minLines="2" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnConnect"
